@@ -68,8 +68,6 @@ def document_vector(tokens, model):
     for token in tokens:
         if token in model.wv:
             word_vectors.append(model.wv[token])
-        else:
-            word_vectors.append(np.zeros(model.vector_size))
     
     if word_vectors:
         return np.mean(word_vectors, axis=0)
@@ -106,9 +104,9 @@ if cache_exists(f'fasttext_model_{data_hash}', '.model'):
     ft_model = FastText.load(os.path.join(CACHE_DIR, f'fasttext_model_{data_hash}.model'))
 else:
     print('Training FastText model...')
-    ft_model = FastText(vector_size=100, window=5, min_count=1, workers=4, sg=1)
+    ft_model = FastText(vector_size=150, window=7, min_count=2, workers=4, sg=1, epochs=50, sample=1e-5)
     ft_model.build_vocab(clean_docs)
-    ft_model.train(clean_docs, total_examples=len(clean_docs), epochs=100)
+    ft_model.train(clean_docs, total_examples=len(clean_docs), epochs=50)
     ft_model.save(os.path.join(CACHE_DIR, f'fasttext_model_{data_hash}.model'))
     print('FastText model cached')
 
