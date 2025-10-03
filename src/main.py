@@ -9,6 +9,8 @@ import string
 import re
 from gensim.models import FastText
 import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 
 # Download nltk stuff if not downloaded already
 try:
@@ -67,5 +69,15 @@ ft_model = FastText(vector_size=100, window=5, min_count=1, workers=4, sg=1)
 ft_model.build_vocab(clean_docs)
 ft_model.train(clean_docs, total_examples=len(clean_docs), epochs=100)
 
+# X
 doc_vectors = [document_vector(doc, ft_model) for doc in clean_docs]
 print(f'Sample document vector:\n{doc_vectors[0]}')
+
+# y
+categories = dataframe_en['queue'].values
+print(f'Possible categories: {categories}')
+
+X_train, X_test, y_train, y_test = train_test_split(doc_vectors, categories, test_size=0.2, random_state=42)
+clf = RandomForestClassifier(n_estimators=150, random_state=42)
+clf.fit(X_train, y_train)
+print(f'Accuracy: {clf.score(X_test, y_test):.3f}')
