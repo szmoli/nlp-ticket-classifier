@@ -4,6 +4,16 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import string
 
+# Download nltk stuff if not downloaded already
+# try:
+#     nltk.download('wordnet', quiet=True)
+#     nltk.download('averaged_perceptron_tagger_eng', quiet=True)
+#     nltk.download('omw-1.4', quiet=True)
+#     nltk.download('punkt_tab', quiet=True)
+#     nltk.download('stopwords', quiet=True)
+# except:
+#     pass
+
 def get_wordnet_pos(tag):
     if tag.startswith('J'):  
         return 'a'
