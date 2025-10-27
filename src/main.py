@@ -2,6 +2,10 @@ import pandas as pd
 from gensim.models import FastText
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import cross_val_score
 
 import preprocess
 import cache
@@ -46,20 +50,31 @@ else:
 vectors_path = f'cache/vectors_{data_hash}'
 if cache.exists(vectors_path):
     print('Loading document vectors from cache...')
-    doc_vectors = load_cache(vectors_path)
+    doc_vectors = cache.load(vectors_path)
 else:
     print('Calculating document vectors...')
     doc_vectors = [vector.of(doc, ft_model) for doc in clean_docs]
     cache.save(vectors_path, doc_vectors)
     print('Document vectors cached')
 
-print(f'Sample document vector:\n{doc_vectors[0]}')
+# print(f'Sample document vector:\n{doc_vectors[0]}')
 
 # y
 categories = dataframe_en['queue'].values
-print(f'Possible categories: {categories}')
+# print(f'Possible categories: {categories}')
 
-X_train, X_test, y_train, y_test = train_test_split(doc_vectors, categories, test_size=0.2, random_state=42)
-clf = RandomForestClassifier(n_estimators=150, random_state=42)
-clf.fit(X_train, y_train)
-print(f'Accuracy: {clf.score(X_test, y_test):.3f}')
+classifiers = {
+    'Random Forest': RandomForestClassifier(n_estimators=150, random_state=42, class_weight='balanced'),
+    'SVM': SVC(kernel='linear', random_state=42, class_weight='balanced'),
+    'Logistic Regression': LogisticRegression(random_state=42, class_weight='balanced', max_iter=1000),
+}
+
+for name, clf in classifiers.items():
+    scores = cross_val_score(clf, doc_vectors, categories, cv=3, scoring='accuracy')
+    mean_score = scores.mean()
+    print(f"{name}: {mean_score:.3f} (+/- {scores.std() * 2:.3f})")
+
+# X_train, X_test, y_train, y_test = train_test_split(doc_vectors, categories, test_size=0.2, random_state=42)
+# clf = RandomForestClassifier(n_estimators=150, random_state=42)
+# clf.fit(X_train, y_train)
+# print(f'Accuracy: {clf.score(X_test, y_test):.3f}')
