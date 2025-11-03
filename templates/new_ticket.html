@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>New Ticket</title>
+</head>
+<body>
+  <h1>Create New Ticket</h1>
+
+  <form method="POST">
+    <label>Subject:</label><br>
+    <input type="text" name="subject" required><br><br>
+
+    <label>Body:</label><br>
+    <textarea name="body" rows="5" cols="40" required></textarea><br><br>
+
+    <button type="submit">Create Ticket</button>
+  </form>
+
+  <p><a href="{{ url_for('index') }}">⬅️ Back to list</a></p>
+</body>
+</html>

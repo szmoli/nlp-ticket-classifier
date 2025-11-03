@@ -69,12 +69,12 @@ classifiers = {
     'Logistic Regression': LogisticRegression(random_state=42, class_weight='balanced', max_iter=1000),
 }
 
-for name, clf in classifiers.items():
-    scores = cross_val_score(clf, doc_vectors, categories, cv=3, scoring='accuracy')
-    mean_score = scores.mean()
-    print(f"{name}: {mean_score:.3f} (+/- {scores.std() * 2:.3f})")
+# for name, clf in classifiers.items():
+#     scores = cross_val_score(clf, doc_vectors, categories, cv=3, scoring='accuracy')
+#     mean_score = scores.mean()
+#     print(f"{name}: {mean_score:.3f} (+/- {scores.std() * 2:.3f})")
 
-# X_train, X_test, y_train, y_test = train_test_split(doc_vectors, categories, test_size=0.2, random_state=42)
-# clf = RandomForestClassifier(n_estimators=150, random_state=42)
-# clf.fit(X_train, y_train)
-# print(f'Accuracy: {clf.score(X_test, y_test):.3f}')
+X_train, X_test, y_train, y_test = train_test_split(doc_vectors, categories, test_size=0.2, random_state=42)
+clf = RandomForestClassifier(n_estimators=150, random_state=42)
+clf.fit(X_train, y_train)
+print(f'Accuracy: {clf.score(X_test, y_test):.3f}')
