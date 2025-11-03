@@ -55,7 +55,11 @@
       <tbody>
         {% for t in tickets %}
           <tr>
-            <td><a href="{{ url_for('view_ticket', ticket_id=t['id']) }}">{{ t['subject'] }}</a></td>
+            {% if t['subject'] %}
+              <td><a href="{{ url_for('view_ticket', ticket_id=t['id']) }}">{{ t['subject'] }}</a></td>
+            {% else %}
+              <td><a href="{{ url_for('view_ticket', ticket_id=t['id']) }}">No subject</a></td>
+            {% endif %}
             <td>{{ t['team'] }}</td>
             <td>
               <a class="button" href="{{ url_for('edit_ticket', ticket_id=t['id']) }}">✏️ Edit</a>

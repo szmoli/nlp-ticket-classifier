@@ -1,9 +1,17 @@
 from flask import Flask, render_template, request, redirect, url_for
 import db
 import os
+from classify import team, load_models
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 app = Flask(__name__, template_folder=os.path.join(BASE_DIR, 'templates'))
+
+try:
+    ft_model, clf = load_models()
+    print("[INFO] ML models loaded.")
+except Exception as e:
+    ft_model, clf = None, None
+    print(f"[WARN] ML models not loaded: {e}")
 
 @app.route('/')
 def index():
@@ -13,7 +21,21 @@ def index():
 @app.route('/new', methods=['GET', 'POST'])
 def new_ticket():
     if request.method == 'POST':
-        db.create_ticket(request.form['subject'], request.form['body'], request.form['team'])
+        subject = request.form.get('subject', '').strip()
+        body = request.form.get('body', '').strip()
+        predicted_team = None
+        prob = 0.0
+        if ft_model is not None and clf is not None and body:
+            try:
+                predicted_team, prob, probs_dict = team(body, ft_model, clf, threshold=0.0)
+            except Exception as e:
+                # log error and fall back to provided_team
+                print(f"[ERROR] Prediction failed: {e}")
+                predicted_team, prob = None, 0.0
+        
+        print(f"[INFO] Predicted team: {predicted_team} with probability: {prob}")
+
+        db.create_ticket(request.form['subject'], request.form['body'], predicted_team)
         return redirect(url_for('index'))
     return render_template('new_ticket.html')
 

@@ -43,8 +43,14 @@ def get_domain_stopwords():
         'email', 'phone', 'call', 'contact', 'regarding', 'following'
     }
 
-def remove_stopwords(tokens, language = 'english'):
+def without_stopwords(tokens, language = 'english'):
     return [token for token in tokens if (token not in set(stopwords.words(language)) and token not in list(string.punctuation) and token not in get_domain_stopwords())]
 
 def lemmatize(tokens, lemmatizer = WordNetLemmatizer()):
     return [lemmatizer.lemmatize(token, get_wordnet_pos(tag)) for (token, tag) in pos_tag(tokens)]
+
+def this(text):
+    tokens = tokenize(text)
+    tokens = without_stopwords(tokens)
+    lemmas = lemmatize(tokens)
+    return lemmas
