@@ -107,7 +107,7 @@ def team(text, ft_model, clf, threshold=0.4):
         return top_cls, top_prob, probs_dict
     return None, top_prob, probs_dict
 
-def main():
+def train():
     print("[INFO] Loading texts and labels from DB...")
     texts, labels = load_texts_and_labels()
     print(f"[INFO] {len(texts)} labeled examples loaded.")
@@ -145,6 +145,4 @@ def main():
 
     save_models(ft_model, clf, metrics)
     print("[INFO] Training finished.")
-
-if __name__ == "__main__":
-    main()
+    return ft_model, clf, metrics

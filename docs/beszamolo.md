@@ -214,16 +214,18 @@ def team(text, ft_model, clf, threshold=0.4):
     return None, top_prob, probs_dict
 ```
 
-## Futási példa
+## Futási példa és értékelés
 
 Létrehoztam egy új hibajegyet az applikációban:
 
 ![New ticket](new-ticket.png)
 
-A modell a Technical Support csapatot rendelte hozzá a leírás alapján. Az összes osztály közül ennek 41% valószínűséget számított ki, ami szerintem elég jó eredmény tekintve, hogy 10 osztály közül kellett választania.
+A modell a Technical Support csapatot rendelte hozzá a leírás alapján. Az összes osztály közül ennek 41% valószínűséget számított ki.
 
 ![Ticket](ticket.png)
 ![Probability](probability.png)
+
+A modell összességében 65,3% pontossággal tudja megmondani a helyes csapatot. Ez szerintem egy egész jó eredmény, hiszen 10 csapat közül kell választania. Nem vagyok vele teljesen elégedett, de szerintem ez már elég jó ahhoz, hogy csökkentse a manuális hibajegy oda-vissza tologatást. Persze emberi felülvizsgálatra és beavatkozásra, amikor téved a modell továbbra is szükség van.
 
 ## Felhasznált források
 

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import db
 import os
-from classify import team, load_models, info
+from classify import team, load_models, info, train
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 app = Flask(__name__, template_folder=os.path.join(BASE_DIR, 'templates'))
@@ -10,8 +10,8 @@ try:
     ft_model, clf, metrics = load_models()
     print("[INFO] ML models loaded.")
 except Exception as e:
-    ft_model, clf, metrics = None, None, None
     print(f"[WARN] ML models not loaded: {e}")
+    ft_model, clf, metrics = train()
 
 db.initialize()
 
