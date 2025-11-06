@@ -4,6 +4,10 @@
 
 A házifeladatom célja az volt, hogy egy olyan osztályozó modellt készítsek, ami informatikai problémák szöveges leírásából képes meghatározni viszonylag jó pontossággal, hogy azzal melyik csapatnak kell foglalkoznia, kihez kerüljön a hibajegy.
 
+Az ötlet az, hogy a szöveges leírásokból képezzünk szóbeágyazás vektorokat, mivel azok viszonylag jól hordozzák a kontextust, majd a vektor alapján egy osztályozó modell kiválasztja a legmegfelelőbb csapatot.
+
+A megoldásom 65,3% pontossággal tudja megmondani a helyes csapatot. Ez szerintem egy egész jó eredmény, hiszen 10 csapat közül kell választania. Persze emberi felülvizsgálatra és beavatkozásra, amikor téved a modell továbbra is szükség van, de ez már segítség lehet azoknak az embereknek, akik manuálisan tologatják a hibajegyeket.
+
 ## Felhasznált adatok
 
 A betanításhoz felhasznált adatokat [innen](https://www.kaggle.com/datasets/tobiasbueck/multilingual-customer-support-tickets) töltöttem le, de csak az angol nyelvű leírásokat használtam fel (mivel németül nem tudok).
@@ -231,14 +235,12 @@ A modell a Technical Support csapatot rendelte hozzá a leírás alapján. Az ö
 ![Ticket](ticket.png)
 ![Probability](probability.png)
 
-A modell összességében 65,3% pontossággal tudja megmondani a helyes csapatot. Ez szerintem egy egész jó eredmény, hiszen 10 csapat közül kell választania. Nem vagyok vele teljesen elégedett, de szerintem ez már elég jó ahhoz, hogy csökkentse a manuális hibajegy oda-vissza tologatást. Persze emberi felülvizsgálatra és beavatkozásra, amikor téved a modell továbbra is szükség van.
-
 ## Felhasznált források
 
 - ChatGPT:
   - HTML templatek generálása a Flask applikációhoz
   - Python könyvtár ajánlások
-  - Stack tracek megmagyarázása
+  - Stack tracek megmagyarázása debugolás közben
 - [NLTK Documentation](https://www.nltk.org/api/nltk.html)
 - [WordNet Documentation](https://www.nltk.org/howto/wordnet.html)
 - [Gensim FastText Documentation](https://radimrehurek.com/gensim/models/fasttext.html)
