@@ -72,5 +72,10 @@ def delete_ticket(ticket_id):
     db.delete_ticket(ticket_id)
     return redirect(url_for('index'))
 
+@app.route('/train', methods=['GET'])
+def train_model():
+    train()
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

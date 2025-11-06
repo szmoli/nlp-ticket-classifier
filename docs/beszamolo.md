@@ -216,6 +216,12 @@ def team(text, ft_model, clf, threshold=0.4):
 
 ## Futási példa és értékelés
 
+Az applikációt az alábbi paranccsal futtathatjuk, feltéve, hogy a projekt gyökérmappájából adjuk ki: `./venv/bin/python ./src/app.py`
+
+Ilyenkor, ha még nem létezik az adatbázis, létrehozza azt és feltölti az adatokkal. Ha pedig a modellek sem léteznek, akkor betanítja azokat és elmenti őket, hogy legközelebbi indításnál ne kelljen újratanítani.
+
+Ha mégis újra szeretnénk tanítani a modellt, akkor a `Train Model` gombra kattintva megtehetjük.
+
 Létrehoztam egy új hibajegyet az applikációban:
 
 ![New ticket](new-ticket.png)
