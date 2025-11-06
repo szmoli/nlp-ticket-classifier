@@ -1,22 +1,34 @@
 from flask import Flask, render_template, request, redirect, url_for
 import db
 import os
-from classify import team, load_models
+from classify import team, load_models, info
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 app = Flask(__name__, template_folder=os.path.join(BASE_DIR, 'templates'))
 
 try:
-    ft_model, clf = load_models()
+    ft_model, clf, metrics = load_models()
     print("[INFO] ML models loaded.")
 except Exception as e:
-    ft_model, clf = None, None
+    ft_model, clf, metrics = None, None, None
     print(f"[WARN] ML models not loaded: {e}")
+
+db.initialize()
 
 @app.route('/')
 def index():
     tickets = db.get_all_tickets()
     return render_template('index.html', tickets=tickets)
+
+@app.route('/info', methods=['GET'])
+def view_info():
+    if ft_model is not None and clf is not None and metrics is not None:
+        inf = info(ft_model, clf, metrics)
+    else:
+        inf = {}
+    
+    print(f"[INFO] Model info: {inf}")
+    return render_template('info.html', info=inf)
 
 @app.route('/new', methods=['GET', 'POST'])
 def new_ticket():
@@ -29,7 +41,6 @@ def new_ticket():
             try:
                 predicted_team, prob, probs_dict = team(body, ft_model, clf, threshold=0.0)
             except Exception as e:
-                # log error and fall back to provided_team
                 print(f"[ERROR] Prediction failed: {e}")
                 predicted_team, prob = None, 0.0
         

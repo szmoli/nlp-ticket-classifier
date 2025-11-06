@@ -48,7 +48,7 @@ def delete_ticket(ticket_id: int) -> bool:
         conn.commit()
         return cursor.rowcount > 0
 
-def import_data(csv_path):
+def initialize():
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(
@@ -61,18 +61,25 @@ def import_data(csv_path):
             )
             """
         )
-    with open(
-        csv_path,
-        newline="",
-        encoding="utf-8",
-    ) as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            if row["language"] == "en":
-                cursor.execute(
-                    "INSERT INTO tickets (subject, body, team) VALUES (?, ?, ?)",
-                    (row["subject"], row["body"], row["queue"]),
-                )
-        conn.commit()
 
-# import_data(CSV_PATH)
+        cursor.execute("SELECT COUNT(*) FROM tickets")
+        (count,) = cursor.fetchone()
+        if count > 0:
+            print("[INFO] Table already exists, not inserting anything.")
+            return
+    
+        with open(
+            CSV_PATH,
+            newline="",
+            encoding="utf-8",
+        ) as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if row["language"] == "en":
+                    cursor.execute(
+                        "INSERT INTO tickets (subject, body, team) VALUES (?, ?, ?)",
+                        (row["subject"], row["body"], row["queue"]),
+                    )
+        print(f"[INFO] Inserted data from {CSV_PATH}.")
+
+    conn.commit()

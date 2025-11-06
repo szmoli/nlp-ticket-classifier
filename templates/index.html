@@ -3,45 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Ticket List</title>
-  <style>
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: left;
-    }
-    th {
-      background-color: #f4f4f4;
-    }
-    a.button {
-      text-decoration: none;
-      padding: 4px 8px;
-      border: 1px solid #333;
-      border-radius: 4px;
-      margin-right: 4px;
-    }
-    form {
-      display: inline;
-    }
-    button {
-      padding: 4px 8px;
-      border: 1px solid #c00;
-      background-color: #fdd;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #fbb;
-    }
-  </style>
 </head>
 <body>
   <h1>All Tickets</h1>
 
   <p><a class="button" href="{{ url_for('new_ticket') }}">Create New Ticket</a></p>
+  <p><a class="button" href="{{ url_for('view_info') }}">View Model Information</a></p>
 
   {% if tickets %}
     <table>
