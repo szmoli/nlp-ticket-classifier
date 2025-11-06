@@ -11,7 +11,6 @@ import json
 import db
 import preprocess
 import vector
-import cache
 
 MODEL_DIR = "cache"
 MODEL_SUFFIX = "from_db"
