@@ -216,11 +216,11 @@ def team(text, ft_model, clf, threshold=0.4):
 
 ## Futási példa és értékelés
 
-Az applikációt az alábbi paranccsal futtathatjuk, feltéve, hogy a projekt gyökérmappájából adjuk ki: `./venv/bin/python ./src/app.py`
+A parancsok futtatása előtt navigáljunk el a projekt gyökér könyvtárába. Az applikáció indítása előtt telepítsük a szükséges könyvtárakat, ezzel a paranccsal: `pip install -r requirements.txt`. Majd az applikációt ezzel a paranccsal indíthatjuk el: `python src/app.py`.
 
 Ilyenkor, ha még nem létezik az adatbázis, létrehozza azt és feltölti az adatokkal. Ha pedig a modellek sem léteznek, akkor betanítja azokat és elmenti őket, hogy legközelebbi indításnál ne kelljen újratanítani.
 
-Ha mégis újra szeretnénk tanítani a modellt, akkor a `Train Model` gombra kattintva megtehetjük.
+Ha mégis újra szeretnénk tanítani a modellt, akkor a főoldalon a `Train Model` gombra kattintva megtehetjük.
 
 Létrehoztam egy új hibajegyet az applikációban:
 
